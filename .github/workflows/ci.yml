@@ -13,10 +13,20 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v6
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11.11.0
+          cache: true
+
       - name: Set up Node
         uses: actions/setup-node@v5
         with:
           node-version: 22
+          cache: pnpm
 
-      - name: Check Node Version
-        run: node --version
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Rust tests
+        run: pnpm run test
